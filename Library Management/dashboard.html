@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <style>
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; 
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: url("book.jpg") no-repeat center center fixed;
+      background-size: cover;
+      }
+  
+      nav {
+        background-color: #333;
+        color: #fff;
+        background-color: rgba(51, 51, 51, 0.8);
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+      }
+  
+      nav ul {
+        list-style-type: none;
+        display: flex;
+        gap: 10px;
+        list-style-type: none;
+        display: flex;
+        gap: 10px;
+        margin-right: auto;
+      }
+  
+      nav a {
+        text-decoration: none;
+        color: #fff;
+        padding: 5px;
+        border-radius: 3px;
+        display: flex;
+        justify-content: space-between;
+        align-items: left;
+      }
+
+      .logo img {
+        width: 30px; 
+        height: auto;
+        border-radius: 15px;
+        margin-right: 10px; /* Add spacing between the logo and the "Home" button */
+      }
+  
+      .user-buttons {
+        display: flex;
+        align-items: center;
+      }
+  
+      .user-buttons button {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        margin-left: 10px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+  
+      .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        position: relative;
+      }
+  
+      #search-box {
+        width: 300px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+  
+      #search-button {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+  
+      #search-button:hover {
+        background-color: #555;
+      }
+      .book-item:hover {
+        background-color: #f1f1f1; 
+      }
+  
+    footer {
+        
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        background-color: rgba(51, 51, 51, 0.8);
+        flex-shrink: 0; /* Prevent the footer from shrinking */
+      }
+      .results-container {
+        border: 1px solid #ccc;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        flex-grow: 1; /* Expand to fill available space */
+      }
+  
+
+    .book-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #ccc;
+      padding: 10px;
+      max-width: 200px;
+    }
+
+    .book-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .book-author {
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .book-copies,
+    .book-cost {
+      margin-bottom: 5px;
+    }
+
+    .book-image {
+      width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .book-buttons button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 5px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .book-buttons button:hover {
+      background-color: #555;
+    }
+
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .pagination-button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      margin-right: 5px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .pagination-button:hover {
+      background-color: #555;
+    }
+
+    .suggestion-container {
+      position: absolute;
+      width: 300px;
+      max-height: 150px;
+      overflow-y: auto;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      display: none;
+    }
+
+    .suggestion {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .suggestion:hover {
+      background-color: #f1f1f1;
+    }
+
+    .profile-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .profile-dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .profile-dropdown-content a:hover {
+      background-color: #f1f1f1;
+    }
+
+    .profile-dropdown:hover .profile-dropdown-content {
+      display: block;
+    }
+    
+
+    .cart-button {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+    }
+
+    .cart-button img {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+    .profile-dropdown button img,
+.cart-button img {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+.cart-button {
+    display: flex;
+    align-items: center;
+  }
+  
+  .cart-image-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  
+  .cart-text-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cart-text-button:hover {
+    background-color: #555;
+  }
+  
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img src="books.gif" alt="Logo">
+    </div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="user-buttons">
+      <div class="profile-dropdown">
+        <button><img src="profile.png" alt="Profile"></button>
+        <div class="profile-dropdown-content">
+          <a href="#">My Account</a>
+          <a href="#">Settings</a>
+          <a href="home.html">Logout</a>
+        </div>
+      </div>
+      <div class="cart-button">
+        <button class="cart-image-button">
+          <img src="cart.png" alt="Cart">
+        </button>
+        
+      
+    </div>
+  </nav>
+
+ 
+
+
+  <div class="search-container">
+    <input type="text" id="search-box" placeholder="Enter your search query">
+    <button id="search-button">Search</button>
+    <div class="suggestion-container" id="suggestion-container"></div>
+  </div>
+  <div class="Text"><p>popular Books:</p></div>
+  <div class="results-container" id="results"></div>
+  
+  <div class="pagination-container" id="pagination"></div>
+
+  <script>
+    const searchBox = document.getElementById("search-box");
+    const searchButton = document.getElementById("search-button");
+    const resultsContainer = document.getElementById("results");
+    const paginationContainer = document.getElementById("pagination");
+    const suggestionContainer = document.getElementById("suggestion-container");
+
+    const resultsPerPage = 9; // Number of books to display per page
+    let currentPage = 1; // Current page number
+    let totalResults = 0; // Total number of results
+    let displayedBooks = []; // Books currently displayed on the page
+
+    searchBox.addEventListener("input", showSuggestions);
+    searchButton.addEventListener("click", performSearch);
+
+    function showPopularBooks() {
+      const apiUrl = "http://openlibrary.org/search.json?q=random"; // API endpoint to fetch random books
+    
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const allBooks = data.docs;
+          const popularBooks = allBooks.filter(book => book.cover_i); // Filter out books without cover images
+    
+          displayBooks(popularBooks);
+        })
+        .catch(error => {
+          console.log("An error occurred:", error);
+        });
+    }
+    
+    showPopularBooks();
+    
+     
+
+    function showSuggestions() {
+      const searchQuery = searchBox.value.trim();
+
+      if (searchQuery === "") {
+        hideSuggestions();
+        return;
+      }
+
+      const apiUrl = `http://openlibrary.org/search.json?q=${searchQuery}&limit=5`;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const suggestions = data.docs.map(book => book.title);
+          displaySuggestions(suggestions);
+        })
+        .catch(error => {
+          console.log("An error occurred:", error);
+        });
+    }
+
+    function displaySuggestions(suggestions) {
+      suggestionContainer.innerHTML = ""; // Clear previous suggestions
+
+      suggestions.forEach(suggestion => {
+        const suggestionItem = document.createElement("div");
+        suggestionItem.textContent = suggestion;
+        suggestionItem.classList.add("suggestion");
+
+        suggestionItem.addEventListener("click", () => {
+          searchBox.value = suggestion;
+          hideSuggestions();
+          performSearch();
+        });
+
+        suggestionContainer.appendChild(suggestionItem);
+      });
+
+      suggestionContainer.style.display = "block";
+    }
+
+    function hideSuggestions() {
+      suggestionContainer.style.display = "none";
+    }
+
+
+    function performSearch() {
+      const searchQuery = searchBox.value.trim();
+
+      if (searchQuery === "") {
+        clearResults();
+        return;
+      }
+
+      const startIndex = (currentPage - 1) * resultsPerPage;
+      const apiUrl = `http://openlibrary.org/search.json?q=${searchQuery}&limit=${resultsPerPage}&offset=${startIndex}`;
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const books = data.docs;
+          totalResults = data.numFound;
+
+          displayBooks(books);
+          updatePagination();
+        })
+        .catch(error => {
+          console.log("An error occurred:", error);
+        });
+    }
+
+    function clearResults() {
+      resultsContainer.innerHTML = "";
+      paginationContainer.innerHTML = "";
+    }
+
+    function displayBooks(books) {
+      resultsContainer.innerHTML = ""; // Clear previous results
+
+      books.forEach(book => {
+        const bookItem = createBookItem(book);
+        resultsContainer.appendChild(bookItem);
+      });
+    }
+
+    
+
+    function createBookItem(book) {
+      const bookItem = document.createElement("div");
+      bookItem.className = "book-item";
+
+      const title = document.createElement("div");
+      title.className = "book-title";
+      title.textContent = book.title;
+
+      const author = document.createElement("div");
+      author.className = "book-author";
+      author.textContent = book.author_name ? book.author_name.join(", ") : "Unknown author";
+
+      const copies = document.createElement("div");
+      copies.className = "book-copies";
+      copies.textContent = `Copies available: ${getRandomNumber(1, 100)}`;
+
+      const cost = document.createElement("div");
+      cost.className = "book-cost";
+      cost.textContent = `Cost: $${getRandomNumber(5, 20)}`;
+
+      const image = document.createElement("img");
+      image.className = "book-image";
+      image.src = `http://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+      image.alt = book.title;
+
+      const buyButton = document.createElement("button");
+      buyButton.textContent = "Buy";
+
+      const rentButton = document.createElement("button");
+      rentButton.textContent = "Rent";
+
+      const buttonContainer = document.createElement("div");
+      buttonContainer.className = "book-buttons";
+      buttonContainer.appendChild(buyButton);
+      buttonContainer.appendChild(rentButton);
+
+      bookItem.appendChild(image);
+      bookItem.appendChild(title);
+      bookItem.appendChild(author);
+      bookItem.appendChild(copies);
+      bookItem.appendChild(cost);
+      bookItem.appendChild(buttonContainer);
+
+      return bookItem;
+    }
+
+    const maxVisiblePages = 5; // Maximum number of visible page buttons
+
+    function updatePagination() {
+      paginationContainer.innerHTML = ""; // Clear previous pagination
+
+      const totalPages = Math.ceil(totalResults / resultsPerPage);
+      const visiblePages = Math.min(totalPages, maxVisiblePages);
+
+      let startPage = Math.max(currentPage - Math.floor(visiblePages / 2), 1);
+      let endPage = startPage + visiblePages - 1;
+
+      if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(endPage - visiblePages + 1, 1);
+      }
+
+      // Add previous page button
+      const prevButton = document.createElement("button");
+      prevButton.className = "pagination-button";
+      prevButton.textContent = "Previous";
+      prevButton.disabled = currentPage === 1;
+      prevButton.addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          performSearch();
+        }
+      });
+      paginationContainer.appendChild(prevButton);
+
+      // Add page buttons
+      for (let i = startPage; i <= endPage; i++) {
+        const pageButton = document.createElement("button");
+        pageButton.className = "pagination-button";
+        pageButton.textContent = i;
+
+        if (i === currentPage) {
+          pageButton.disabled = true;
+          pageButton.classList.add("active"); // Add CSS class for active page
+        }
+
+        pageButton.addEventListener("click", () => {
+          currentPage = i;
+          performSearch();
+        });
+
+        paginationContainer.appendChild(pageButton);
+      }
+
+      // Add next page button
+      const nextButton = document.createElement("button");
+      nextButton.className = "pagination-button";
+      nextButton.textContent = "Next";
+      nextButton.disabled = currentPage === totalPages;
+      nextButton.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          performSearch();
+        }
+      });
+      paginationContainer.appendChild(nextButton);
+    }
+
+    function getRandomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+  </script>
+
+  <footer>
+    &copy; 2023 Library Management. All rights reserved.
+  </footer>
+</body>
+</html>
